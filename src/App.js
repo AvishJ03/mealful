@@ -10,34 +10,24 @@ function App() {
   useEffect(() => {
     setSchedule({});
     getScheduled();
-    console.log(schedule);
   }, [date]);
 
   function getDate(e) {
     setDate(moment(e.target.value).format("YYYY-MM-DD"));
-    // console.log(moment("2021-05-18 12:39:29").format("YYYY-MM-DD"));
   }
 
   function getScheduled() {
+    const obj = {};
     data.forEach((order) => {
-      // console.log(order);
       if (order.item_date === date) {
-        if (moment(order.schedule_time).format("YYYY-MM-DD") in schedule) {
-          console.log(moment(order.schedule_time).format("YYYY-MM-DD"));
-          // schedule[moment(order.schedule_time).format("YYYY-MM-DD")] += 1;
-          setSchedule({
-            ...schedule,
-            [moment(order.schedule_time).format("YYYY-MM-DD")]:
-              moment(order.schedule_time).format("YYYY-MM-DD") + 1,
-          });
+        if (moment(order.schedule_time).format("YYYY-MM-DD") in obj) {
+          obj[moment(order.schedule_time).format("YYYY-MM-DD")] += 1;
         } else {
-          setSchedule({
-            ...schedule,
-            [moment(order.schedule_time).format("YYYY-MM-DD")]: 1,
-          });
+          obj[moment(order.schedule_time).format("YYYY-MM-DD")] = 1;
         }
       }
     });
+    setSchedule(obj);
   }
 
   return (
@@ -49,7 +39,7 @@ function App() {
         onChange={getDate}
       />
       <div className="graph">
-        <Chart />
+        <Chart schedule={schedule} />
       </div>
     </div>
   );

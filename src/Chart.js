@@ -19,7 +19,7 @@ ChartJS.register(
   Legend
 );
 
-const Chart = ({ month, scheduled }) => {
+const Chart = ({ schedule }) => {
   const options = {
     responsive: true,
     plugins: {
