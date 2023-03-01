@@ -14,4 +14,10 @@ code {
 
 .graph {
   width: 50vw;
+  margin: auto;
+}
+
+.pie {
+  width: 20vw;
+  margin: auto;
 }
