@@ -12,12 +12,45 @@ code {
     monospace;
 }
 
+.bonusinp {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+h1 {
+  margin: 0;
+  text-align: center;
+}
+
+p {
+  text-align: center;
+  margin: 0;
+  margin-top: 20px;
+}
+
+.datepicker {
+  text-align: center;
+  display: block;
+  margin: auto;
+  padding: 10px;
+}
+
+.graphs {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .graph {
   width: 50vw;
-  margin: auto;
 }
 
 .pie {
+  margin-left: 100px;
+}
+
+.pie2 {
   width: 20vw;
   margin: auto;
 }

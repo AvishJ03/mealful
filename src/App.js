@@ -3,6 +3,7 @@ import data from "./data.json";
 import { useEffect, useState } from "react";
 import moment from "moment/moment";
 import PieChart from "./PieChart";
+import BonusChart from "./BonusChart";
 
 function App() {
   const [date, setDate] = useState(moment("2021-05-19").format("YYYY-MM-DD"));
@@ -13,6 +14,7 @@ function App() {
   useEffect(() => {
     setSchedule({});
     getScheduled();
+    // eslint-disable-next-line
   }, [date]);
 
   useEffect(() => {
@@ -45,9 +47,10 @@ function App() {
     });
     // console.log(obj);
     setdaywise(obj);
-  }, [clicked]);
+  }, [clicked, date]);
 
   function getDate(e) {
+    console.log(moment("2021-05-19").diff(moment("2021-05-18"), "days"));
     setDate(moment(e.target.value).format("YYYY-MM-DD"));
   }
 
@@ -67,18 +70,24 @@ function App() {
 
   return (
     <div className="App">
+      <p>Pick a Date:</p>
       <input
+        name="date"
+        className="datepicker"
         type="date"
         value={date}
         placeholder="Enter Input-Date"
         onChange={getDate}
       />
-      <div className="graph">
-        <Chart schedule={schedule} setClicked={setClicked} />
+      <div className="graphs">
+        <div className="graph">
+          <Chart date={date} schedule={schedule} setClicked={setClicked} />
+        </div>
+        <div className="">
+          <PieChart daywise={daywise} clicked={clicked} />
+        </div>
       </div>
-      <div className="pie">
-        <PieChart schedule={schedule} clicked={clicked} />
-      </div>
+      <BonusChart />
     </div>
   );
 }

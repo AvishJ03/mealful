@@ -1,19 +1,19 @@
-import React, { useEffect, useState, useRef } from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  ArcElement,
-  LinearScale,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Pie, getElementAtEvent } from "react-chartjs-2";
+import React, { useEffect, useState } from "react";
+import { Chart as ChartJS, ArcElement, Title, Tooltip, Legend } from "chart.js";
+import { Pie } from "react-chartjs-2";
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement);
 
-const PieChart = ({ clicked }) => {
-  useEffect(() => {}, [clicked]);
+const PieChart = ({ clicked, daywise }) => {
+  const [time, setTime] = useState([]);
+  const [count, setCount] = useState([]);
+
+  useEffect(() => {
+    const keys = Object.keys(daywise);
+    const values = Object.values(daywise);
+    setTime(keys);
+    setCount(values);
+  }, [clicked, daywise]);
 
   const options = {
     responsive: true,
@@ -23,7 +23,7 @@ const PieChart = ({ clicked }) => {
       },
       title: {
         display: true,
-        text: "DayWise Scheduling Patterns",
+        text: "Hour Wise Patterns for " + clicked,
         font: {
           size: 17,
           weight: "bold",
@@ -33,20 +33,11 @@ const PieChart = ({ clicked }) => {
   };
 
   const data = {
-    labels: [
-      "12am to 3am",
-      "3am to 6am",
-      "6am to 9am",
-      "9am to 12pm",
-      "12pm to 3pm",
-      "3pm to 6pm",
-      "6pm to 9pm",
-      "9pm to 12am",
-    ],
+    labels: time,
     datasets: [
       {
-        label: "# of Orders",
-        data: [12, 19, 3, 5, 4, 2, 6, 7],
+        label: "No. of Orders",
+        data: count,
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",
@@ -63,13 +54,19 @@ const PieChart = ({ clicked }) => {
           "rgba(153, 102, 255, 1)",
           "rgba(255, 159, 64, 1)",
         ],
-        borderWidth: 1,
+        borderWidth: 2,
       },
     ],
   };
 
   return (
-    <>{clicked != null ? <Pie data={data} options={options} /> : <div></div>}</>
+    <>
+      {clicked != null ? (
+        <Pie className="pie" data={data} options={options} />
+      ) : (
+        <div className="empty"></div>
+      )}
+    </>
   );
 };
 
